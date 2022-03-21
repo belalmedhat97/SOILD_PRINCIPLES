@@ -1,7 +1,7 @@
 import Foundation
 
 
-// The idea of Liskov Substitution Principle:
+// The idea of Interface Segregation Principle:
 // ###########################################
 /// A client should not be forced to implement an interface that it doesn’t use
 /// no need to add the functionality of code to the entities(Class, Struct, Enum) that doesn't make use of it
