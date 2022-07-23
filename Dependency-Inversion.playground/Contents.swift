@@ -8,8 +8,8 @@ import Foundation
 ///  High-level modules should not depend on low-level modules. With this theory, high level modules like the view controller, should not depend directly on low level things, like a networking component. Instead, it should depend on abstractions or in Swift term, protocol. The point here is to reduce coupling.
 
 //MARK: - Bad Practice Example
-// The problem with the code below is that high level module DatabaseController is tightly coupled with low level module NetworkRequest
-class DatabaseController {
+// The problem with the code below is that high level module ViewController is tightly coupled with low level module NetworkRequest
+class ViewController {
 
     private let networkRequest: NetworkRequest
 
@@ -17,7 +17,7 @@ class DatabaseController {
         self.networkRequest = network
     }
 
-    func connectDatabase() {
+    func connectNetwork() {
         networkRequest.connect()
     }
 }
@@ -31,30 +31,30 @@ class NetworkRequest {
 }
 //MARK: - Good Practice Example
 // The way to go around is probably to use protocol to avoid tight coupling.
-protocol Database {
+protocol NetworkProtocol {
     func connect()
 }
 
-class DatabaseControllerA {
+class ViewControllerA {
 
-    private let database: Database
+    private let networkRequest: NetworkProtocol
 
-    init(db: Database) {
-        self.database = db
+    init(network: NetworkProtocol) {
+        self.networkRequest = network
     }
 
-    func connectDatabase() {
-        database.connect()
+    func connectNetwork() {
+        networkRequest.connect()
     }
 }
 
-class NetworkRequestA: Database {
+class NetworkRequestA: NetworkProtocol {
     func connect() {
         print("added DIP")
         // Connect to the database
     }
 }
-let Da = DatabaseController(network: NetworkRequest())
-let DaA = DatabaseControllerA(db: NetworkRequestA())
-Da.connectDatabase()
-DaA.connectDatabase()
+let Da = ViewController(network: NetworkRequest())
+let DaA = ViewControllerA(network: NetworkRequestA())
+Da.connectNetwork()
+DaA.connectNetwork()
